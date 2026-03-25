@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biltwell 100 — Ryan Bravo #271</title>
+<meta name="theme-color" content="#FF5C00">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Biltwell 100">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --orange: #FF5C00;
+    --dark: #0f0f0f;
+    --mid: #1c1c1c;
+    --card: #222222;
+    --border: #333;
+    --text: #e8e8e8;
+    --muted: #888;
+    --done: #3a3a3a;
+    --done-text: #555;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 32px 20px 60px;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-left: 4px solid var(--orange);
+    padding-left: 16px;
+    margin-bottom: 36px;
+    gap: 16px;
+  }
+
+  .header-text { flex: 1; }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.4rem, 8vw, 4rem);
+    letter-spacing: 2px;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--orange);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .race-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .race-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--orange);
+    letter-spacing: 2px;
+  }
+
+  .race-number-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .progress-bar-wrap {
+    background: var(--mid);
+    border-radius: 2px;
+    height: 6px;
+    margin-bottom: 36px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: var(--orange);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .progress-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .section { margin-bottom: 28px; }
+
+  .section-header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-left: auto;
+    letter-spacing: 1px;
+  }
+
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    user-select: none;
+  }
+
+  .item:hover { border-color: #555; }
+
+  .item.done { background: var(--done); border-color: #2a2a2a; }
+  .item.done .label { text-decoration: line-through; color: var(--done-text); }
+  .item.done .note { color: #444; }
+
+  .checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .item.done .checkbox { background: var(--orange); border-color: var(--orange); }
+
+  .check-icon { display: none; color: #fff; font-size: 11px; font-weight: 700; }
+  .item.done .check-icon { display: block; }
+
+  .label { font-size: 0.92rem; font-weight: 500; line-height: 1.4; }
+
+  .note {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.5;
+  }
+
+  .tag {
+    display: inline-block;
+    background: #2a1400;
+    color: var(--orange);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+  }
+
+  .reset-btn {
+    display: block;
+    margin: 40px auto 0;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  /* ── TAB NAV ── */
+  .tab-nav {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--orange); border-bottom-color: var(--orange); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── TORQUE TABLE ── */
+  .torque-group { margin-bottom: 28px; }
+  .torque-group-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    opacity: 0.8;
+    padding: 6px 0 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 6px;
+  }
+  .torque-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+  }
+  .torque-label { font-size: 0.88rem; font-weight: 500; line-height: 1.4; flex: 1; min-width: 180px; }
+  .torque-val { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: #fff; white-space: nowrap; padding-top: 1px; }
+  .torque-note { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-top: 3px; line-height: 1.5; width: 100%; }
+  .torque-loctite { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: #e0a000; background: #2a1e00; padding: 1px 5px; border-radius: 3px; }
+
+  /* ── SCHEDULE TAB ── */
+  .sched-day { margin-bottom: 28px; }
+  .sched-day-header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: var(--orange);
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sched-event {
+    padding: 11px 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 5px;
+  }
+  .sched-event.hot { border-color: var(--orange); background: #1e0e00; }
+  .sched-time { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--orange); letter-spacing: 1px; margin-bottom: 2px; }
+  .sched-title { font-size: 0.92rem; font-weight: 500; line-height: 1.4; }
+  .sched-note { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+
+  .callout {
+    background: #2a1e00;
+    border-left: 3px solid var(--orange);
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    margin: 8px 0;
+    line-height: 1.5;
+  }
+
+  /* ── WEATHER ── */
+  .weather-strip {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .weather-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+  .weather-day-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+  .weather-icon { font-size: 1.6rem; margin-bottom: 4px; line-height: 1; }
+  .weather-condition { font-size: 0.72rem; color: var(--muted); margin-bottom: 8px; line-height: 1.3; }
+  .weather-temps { font-family: 'DM Mono', monospace; font-size: 1rem; color: #fff; margin-bottom: 4px; }
+  .weather-temps span { font-size: 0.75rem; color: var(--muted); }
+  .weather-meta { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--muted); line-height: 1.8; }
+  .weather-source { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: #444; text-align: right; margin-top: -18px; margin-bottom: 20px; }
+
+  /* ── VENUE TAB ── */
+  .coord-card {
+    padding: 11px 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .coord-label { font-size: 0.88rem; font-weight: 500; line-height: 1.3; }
+  .coord-sub { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--muted); margin-top: 2px; }
+  .coord-val { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--orange); white-space: nowrap; text-align: right; padding-top: 2px; }
+  .coord-val a { color: inherit; text-decoration: none; }
+
+  .venue-tip {
+    padding: 11px 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .venue-tip .tip-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 4px;
+  }
+
+  /* ── INSURANCE ── */
+  .ins-alert {
+    background: #2a0000;
+    border: 1px solid #cc2200;
+    border-left: 4px solid #cc2200;
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .ins-alert-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 2px; color: #ff4444; margin-bottom: 8px; }
+  .ins-alert-rule { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: #ffaaaa; line-height: 1.8; }
+  .ins-phone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+  .ins-phone-card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; }
+  .ins-phone-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .ins-phone-num { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--orange); font-weight: 500; }
+  .ins-phone-num a { color: inherit; text-decoration: none; }
+  .ins-section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    opacity: 0.8;
+    padding: 14px 0 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+  .ins-policy-card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin-bottom: 10px; }
+  .ins-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.83rem; }
+  .ins-row:last-child { border-bottom: none; }
+  .ins-key { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; min-width: 110px; padding-top: 1px; }
+  .ins-val { text-align: right; font-size: 0.83rem; line-height: 1.4; color: var(--text); }
+
+  /* ── PASSWORD GATE ── */
+  #gate {
+    position: fixed;
+    inset: 0;
+    background: var(--dark);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+  #gate h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; letter-spacing: 3px; color: #fff; border-left: 4px solid var(--orange); padding-left: 16px; }
+  #gate-sub { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-top: -12px; padding-left: 20px; }
+  #gate-input { background: var(--card); border: 1px solid var(--border); color: var(--text); font-family: 'DM Mono', monospace; font-size: 1rem; letter-spacing: 3px; padding: 12px 20px; border-radius: 4px; text-align: center; width: 220px; outline: none; transition: border-color 0.2s; }
+  #gate-input:focus { border-color: var(--orange); }
+  #gate-input.shake { animation: shake 0.3s ease; border-color: #cc2200; }
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+  #gate-btn { background: var(--orange); color: #fff; border: none; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; padding: 11px 28px; border-radius: 4px; cursor: pointer; transition: opacity 0.2s; }
+  #gate-btn:hover { opacity: 0.85; }
+  #gate-error { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: #cc2200; letter-spacing: 1px; height: 16px; }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <div>
+    <h2>Biltwell 100</h2>
+    <div id="gate-sub">Ryan Bravo · #271 · April 12, 2026</div>
+  </div>
+  <input id="gate-input" type="password" placeholder="Password" autocomplete="off" />
+  <div id="gate-error"></div>
+  <label style="display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:0.72rem;color:#aaa;cursor:pointer;margin-top:4px;">
+    <input type="checkbox" id="gate-remember" style="accent-color:var(--orange);width:14px;height:14px;" />
+    Remember me on this device
+  </label>
+  <button id="gate-btn" onclick="checkPassword()">Enter</button>
+</div>
+
+<script>
+(function() {
+  const PASS = 'Bravo';
+  const input = document.getElementById('gate-input');
+  const gate = document.getElementById('gate');
+  const err = document.getElementById('gate-error');
+  const remember = document.getElementById('gate-remember');
+  if (localStorage.getItem('b100-auth') === '1' || sessionStorage.getItem('b100-auth') === '1') gate.style.display = 'none';
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
+  window.checkPassword = function() {
+    if (input.value === PASS) {
+      if (remember.checked) localStorage.setItem('b100-auth', '1');
+      else sessionStorage.setItem('b100-auth', '1');
+      gate.style.opacity = '0';
+      gate.style.transition = 'opacity 0.3s';
+      setTimeout(() => gate.style.display = 'none', 300);
+    } else {
+      err.textContent = 'Incorrect password';
+      input.classList.remove('shake');
+      void input.offsetWidth;
+      input.classList.add('shake');
+      input.value = '';
+      setTimeout(() => { err.textContent = ''; input.classList.remove('shake'); }, 1500);
+    }
+  };
+})();
+</script>
+
+<header>
+  <div class="header-text">
+    <h1>Biltwell 100</h1>
+    <div class="subtitle">Husqvarna FE501s &nbsp;·&nbsp; Ridgecrest, CA &nbsp;·&nbsp; April 12</div>
+  </div>
+  <div class="race-badge">
+    <div class="race-number">#271</div>
+    <div class="race-number-label">Dual Sport · Int</div>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('schedule', this)">📅 Schedule</button>
+  <button class="tab-btn" onclick="switchTab('punchlist', this)">✅ Punchlist</button>
+  <button class="tab-btn" onclick="switchTab('torque', this)">🔩 Torque Ref</button>
+  <button class="tab-btn" onclick="switchTab('budget', this)">💰 Budget</button>
+  <button class="tab-btn" onclick="switchTab('insurance', this)">🛡️ Insurance</button>
+  <button class="tab-btn" onclick="switchTab('venue', this)">🗺️ Venue</button>
+</nav>
+
+<!-- SCHEDULE TAB -->
+<div class="tab-panel active" id="tab-schedule">
+
+  <div class="callout">
+    🏁 <strong>Race Day: Sunday April 12 &nbsp;·&nbsp; #271 &nbsp;·&nbsp; Dual Sport Intermediate Men</strong><br>
+    Racing starts <strong>10:00 AM sharp</strong> · 4 laps · Course closes 4:00 PM · Awards Sunday night
+  </div>
+
+  <div style="margin-bottom:24px;"></div>
+
+  <!-- WEATHER -->
+  <div id="weather-strip" class="weather-strip">
+    <div class="weather-card" style="grid-column:1/-1;text-align:center;color:var(--muted);font-family:'DM Mono',monospace;font-size:0.7rem;padding:20px;">
+      Loading weather…
+    </div>
+  </div>
+  <div class="weather-source" id="weather-source"></div>
+
+  <div class="sched-day">
+    <div class="sched-day-header">Friday · April 10 — Drive Day</div>
+    <div class="sched-event">
+      <div class="sched-time">MORNING</div>
+      <div class="sched-title">Load up and depart Ladera Ranch</div>
+      <div class="sched-note">~185 miles · ~3 hrs via I-15 N → SR-58 E → US-395 N · No real traffic on that route</div>
+    </div>
+    <div class="sched-event">
+      <div class="sched-title">Gas in Victorville or Barstow</div>
+      <div class="sched-note">Last cheap/reliable fuel before Ridgecrest. Fill the truck and any spare cans.</div>
+    </div>
+    <div class="sched-event">
+      <div class="sched-title">Arrive Ridgecrest — Set up camp</div>
+      <div class="sched-note">Football Field OHV area or nearby BLM. Get the bike off the carrier and do a quick pre-ride check while it's light.</div>
+    </div>
+    <div class="sched-event">
+      <div class="sched-title">Early night</div>
+      <div class="sched-note">Race day is Sunday. Friday is recovery and setup only.</div>
+    </div>
+  </div>
+
+  <div class="sched-day">
+    <div class="sched-day-header">Saturday · April 11 — Vintage Race Day (You're Watching)</div>
+    <div class="sched-event">
+      <div class="sched-time">10:00 AM</div>
+      <div class="sched-title">Racing starts — Vintage &amp; Weirdo classes</div>
+      <div class="sched-note">Your class is Sunday. Use today to: walk the course, watch lines, scout the terrain, meet people.</div>
+    </div>
+    <div class="sched-event">
+      <div class="sched-title">Check in at registration if not done Friday</div>
+      <div class="sched-note">Pick up transponder + fender card. Get your sticky #271 numbers. Apply before race day.</div>
+    </div>
+    <div class="sched-event">
+      <div class="sched-time">4:00 PM</div>
+      <div class="sched-title">Course closes · Saturday awards Saturday night</div>
+      <div class="sched-note">Grab dinner in Ridgecrest or Randsburg. Early night — race morning comes fast.</div>
+    </div>
+  </div>
+
+  <div class="sched-day">
+    <div class="sched-day-header">Sunday · April 12 — YOUR RACE DAY 🏁</div>
+    <div class="sched-event hot">
+      <div class="sched-time">~7:00 AM</div>
+      <div class="sched-title">Arrive Football Field OHV</div>
+      <div class="sched-note">Get there early. Parking, pit setup, and rider staging all take time. Don't show up at 9:45.</div>
+    </div>
+    <div class="sched-event hot">
+      <div class="sched-time">~8:00 – 9:30 AM</div>
+      <div class="sched-title">Final registration / transponder check / rider meeting</div>
+      <div class="sched-note">Confirm transponder is on the bike and reading. Have fender card filled out. Know your start wave.</div>
+    </div>
+    <div class="sched-event hot">
+      <div class="sched-time">10:00 AM SHARP</div>
+      <div class="sched-title">RACING STARTS — Rubber band Grand Prix start</div>
+      <div class="sched-note">Fastest classes go first. Dual Sport Intermediate will be mid-pack. Staged start — pay attention to your wave call.</div>
+    </div>
+    <div class="sched-event">
+      <div class="sched-title">4 laps · ~25 miles each · Mojave foothills</div>
+      <div class="sched-note">FE501s tank is ~2.2 gal. At ~35 mpg you're looking at ~77 miles range. Tight for 100 miles. Carry extra or plan for a fuel stop at pit. Know where your pit is before you leave the line.</div>
+    </div>
+    <div class="sched-event hot">
+      <div class="sched-time">4:00 PM</div>
+      <div class="sched-title">Course closes · All riders off trail by 5:00 PM</div>
+      <div class="sched-note">Scoring by transponder + fender card. Check your result.</div>
+    </div>
+    <div class="sched-event">
+      <div class="sched-time">SUNDAY NIGHT</div>
+      <div class="sched-title">Awards ceremony</div>
+      <div class="sched-note">Two nights of awards — Saturday vintage, Sunday modern. Stick around.</div>
+    </div>
+  </div>
+
+  <div class="sched-day">
+    <div class="sched-day-header">Monday — Head Home</div>
+    <div class="sched-event">
+      <div class="sched-title">Drive home to Ladera Ranch</div>
+      <div class="sched-note">~185 miles · ~3 hrs · Fill up in Ridgecrest or Victorville. Straightforward run home.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- PUNCHLIST TAB -->
+<div class="tab-panel" id="tab-punchlist">
+  <div class="progress-label" id="progress-label">0 of 0 complete</div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+  <div id="checklist"></div>
+  <button class="reset-btn" onclick="resetAll()">Reset All</button>
+</div>
+
+<!-- TORQUE TAB -->
+<div class="tab-panel" id="tab-torque">
+  <div id="torque-table"></div>
+</div>
+
+<!-- BUDGET TAB -->
+<div class="tab-panel" id="tab-budget">
+  <div id="budget-content"></div>
+</div>
+
+<!-- INSURANCE TAB -->
+<div class="tab-panel" id="tab-insurance">
+
+  <div class="ins-alert">
+    <div class="ins-alert-title">⚠️ If You Go Down</div>
+    <div class="ins-alert-rule">
+      1. This is a permitted OHV event — there will be medics on course<br>
+      2. Event emergency contact: Biltwell 100 · 100@biltwellinc.com<br>
+      3. Nearest hospital: Ridgecrest Regional Hospital — 10 min north<br>
+      4. Ashley's number: +1 (949) 395-6400 (update if wrong)<br>
+      5. Your health insurance card should be in your wallet — NOT just your phone
+    </div>
+  </div>
+
+  <div class="ins-section-label">Emergency Contacts</div>
+  <div class="ins-phone-grid">
+    <div class="ins-phone-card">
+      <div class="ins-phone-label">911 — Emergency</div>
+      <div class="ins-phone-num"><a href="tel:911">911</a></div>
+    </div>
+    <div class="ins-phone-card">
+      <div class="ins-phone-label">Ridgecrest Regional Hospital</div>
+      <div class="ins-phone-num"><a href="tel:+17603464111">(760) 446-3551</a></div>
+    </div>
+    <div class="ins-phone-card">
+      <div class="ins-phone-label">Biltwell Race Director</div>
+      <div class="ins-phone-num"><a href="mailto:100@biltwellinc.com">100@biltwellinc.com</a></div>
+    </div>
+    <div class="ins-phone-card">
+      <div class="ins-phone-label">Ashley</div>
+      <div class="ins-phone-num"><a href="tel:+19493956400">(949) 395-6400</a></div>
+    </div>
+  </div>
+
+  <div class="ins-section-label">Race Registration</div>
+  <div class="ins-policy-card">
+    <div class="ins-row"><div class="ins-key">Event</div><div class="ins-val">2026 Biltwell 100 Desert Race</div></div>
+    <div class="ins-row"><div class="ins-key">Racer</div><div class="ins-val">Ryan Bravo</div></div>
+    <div class="ins-row"><div class="ins-key">Race Number</div><div class="ins-val">#271</div></div>
+    <div class="ins-row"><div class="ins-key">Class</div><div class="ins-val">Dual Sport · Intermediate Men</div></div>
+    <div class="ins-row"><div class="ins-key">Laps</div><div class="ins-val">4 laps</div></div>
+    <div class="ins-row"><div class="ins-key">Race Day</div><div class="ins-val">Sunday, April 12, 2026</div></div>
+    <div class="ins-row"><div class="ins-key">Location</div><div class="ins-val">Football Field OHV, Ridgecrest, CA</div></div>
+    <div class="ins-row"><div class="ins-key">Start Time</div><div class="ins-val">10:00 AM sharp</div></div>
+    <div class="ins-row"><div class="ins-key">Email</div><div class="ins-val">dirtworthy@gmail.com</div></div>
+    <div class="ins-row"><div class="ins-key">Registered</div><div class="ins-val">January 14, 2026 · SOLD OUT</div></div>
+  </div>
+
+  <div class="ins-section-label">Bike for This Race</div>
+  <div class="ins-policy-card">
+    <div class="ins-row"><div class="ins-key">Bike</div><div class="ins-val">2022 Husqvarna FE501s</div></div>
+    <div class="ins-row"><div class="ins-key">Class requirement</div><div class="ins-val">Street legal · Single cylinder · Any CC</div></div>
+    <div class="ins-row"><div class="ins-key">OHV / Registration</div><div class="ins-val">Must have CA green/red OHV sticker OR current street legal registration</div></div>
+    <div class="ins-row"><div class="ins-key">Rider age</div><div class="ins-val">Must be 18+ · Solo rider only</div></div>
+    <div class="ins-row"><div class="ins-key">Scoring</div><div class="ins-val">Helmet transponder + fender card</div></div>
+    <div class="ins-row"><div class="ins-key">Numbers</div><div class="ins-val">#271 — sticky numbers provided at registration. Apply before race.</div></div>
+  </div>
+
+</div>
+
+<!-- VENUE TAB -->
+<div class="tab-panel" id="tab-venue">
+
+  <div class="ins-section-label">📍 Getting There</div>
+
+  <div class="venue-tip">
+    <div class="tip-label">From Ladera Ranch</div>
+    ~185 miles · ~3 hrs · Take I-15 N → SR-58 E → US-395 N. Dirt Diggers Road is off the 395 just south of Ridgecrest. Turn east — you'll see vehicles and pits set up about 1/4 mile in. Google/Apple can freak out on this last bit — watch for the sign on the 395.
+  </div>
+
+  <div class="venue-tip">
+    <div class="tip-label">If Maps Fail</div>
+    Dirt Diggers Road off US-395, south of Ridgecrest. Head east. The pit area is visible from the road. Coordinates below work offline.
+  </div>
+
+  <div class="ins-section-label" style="margin-top:16px;">📍 Key Coordinates — Works Offline</div>
+
+  <div class="coord-card">
+    <div>
+      <div class="coord-label">Football Field OHV — Start/Finish</div>
+      <div class="coord-sub">Pits · Rider meeting · Stage area · Vendors</div>
+    </div>
+    <div class="coord-val"><a href="https://maps.app.goo.gl/ohQiZ9u5Nn5CZCWR6" target="_blank">35.5162, -117.6613</a></div>
+  </div>
+
+  <div class="coord-card">
+    <div>
+      <div class="coord-label">Ridgecrest — Town</div>
+      <div class="coord-sub">10 miles north · Gas · Food · Walmart · Hotel</div>
+    </div>
+    <div class="coord-val"><a href="https://maps.google.com/?q=Ridgecrest,CA" target="_blank">35.6225, -117.6709</a></div>
+  </div>
+
+  <div class="coord-card">
+    <div>
+      <div class="coord-label">Randsburg</div>
+      <div class="coord-sub">~12 miles south · Ghost town bars + restaurants</div>
+    </div>
+    <div class="coord-val"><a href="https://maps.google.com/?q=Randsburg,CA" target="_blank">35.3686, -117.6581</a></div>
+  </div>
+
+  <div class="coord-card">
+    <div>
+      <div class="coord-label">Ridgecrest Regional Hospital</div>
+      <div class="coord-sub">Emergency — 10 min north</div>
+    </div>
+    <div class="coord-val"><a href="https://maps.google.com/?q=Ridgecrest+Regional+Hospital" target="_blank">35.6326, -117.6703</a></div>
+  </div>
+
+  <div class="ins-section-label" style="margin-top:16px;">⛽ Fuel</div>
+
+  <div class="venue-tip">
+    <div class="tip-label">Truck Fuel</div>
+    Fill up in Victorville or Barstow on the way up. Ridgecrest has multiple gas stations (Chevron, Arco, etc.) — top off when you arrive. Fill again before driving home.
+  </div>
+
+  <div class="venue-tip">
+    <div class="tip-label">FE501s Race Fuel</div>
+    The FE501s has a ~2.2 gal tank. At desert pace (~35 mpg) you're looking at ~75–80 miles range. The race is 100 miles (4 laps × ~25 miles). You will need pit fuel. <strong>Plan your pit location and have extra fuel at pit.</strong> Bring a 1-gallon race jug minimum.
+  </div>
+
+  <div class="ins-section-label" style="margin-top:16px;">🏕️ Camping</div>
+
+  <div class="venue-tip">
+    <div class="tip-label">Options</div>
+    The Football Field OHV area is BLM land — dispersed camping is generally allowed. Many racers camp right at the venue. Bring everything you need — no hookups. Alternatively, Ridgecrest has hotels and a Walmart for supplies.
+  </div>
+
+  <div class="ins-section-label" style="margin-top:16px;">📋 Race Rules Quick Ref</div>
+
+  <div class="venue-tip">
+    <div class="tip-label">Start Format</div>
+    Rubber band Grand Prix start by class. Fastest classes go first. Know when your wave goes — Dual Sport Intermediate will be mid-pack in the modern bike order.
+  </div>
+  <div class="venue-tip">
+    <div class="tip-label">Numbers</div>
+    Given randomly at registration. Sticky numbers provided — apply OVER your existing numbers. #271.
+  </div>
+  <div class="venue-tip">
+    <div class="tip-label">Course Closes</div>
+    4:00 PM hard cutoff. All riders off trail by 5:00 PM. Do not be caught out after 4.
+  </div>
+  <div class="venue-tip">
+    <div class="tip-label">Scoring</div>
+    Helmet transponder (primary) + fender card (backup). Both must be present and correct.
+  </div>
+  <div class="venue-tip">
+    <div class="tip-label">No Team Riding</div>
+    One rider per bike, per entry. No exceptions.
+  </div>
+
+</div>
+
+<script>
+
+// ── TAB SWITCHING ──
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── WEATHER (Ridgecrest, CA · Apr 11–12) ──
+async function fetchWeather() {
+  const LAT = 35.5162, LON = -117.6613;
+  const DATES = ['2026-04-11', '2026-04-12'];
+  const DAY_LABELS = ['Sat · Apr 11', 'Sun · Apr 12 🏁'];
+  const WMO_ICON = { 0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',80:'🌦️',81:'🌧️',95:'⛈️' };
+  const WMO_DESC = { 0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',80:'Rain showers',81:'Rain showers',95:'Thunderstorm' };
+  const WIND_DIR = (deg) => { const d=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW']; return d[Math.round(deg/22.5)%16]; };
+  const UV_LABEL = (uv) => uv<=2?'Low':uv<=5?'Moderate':uv<=7?'High':uv<=10?'Very High':'Extreme';
+  const strip = document.getElementById('weather-strip');
+  const src = document.getElementById('weather-source');
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode,windspeed_10m_max,winddirection_10m_dominant,uv_index_max&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FLos_Angeles&start_date=2026-04-11&end_date=2026-04-12`;
+    const res = await fetch(url);
+    const d = await res.json();
+    const daily = d.daily;
+    strip.innerHTML = DATES.map((date, i) => {
+      const idx = daily.time.indexOf(date);
+      if (idx === -1) return `<div class="weather-card"><div class="weather-day-label">${DAY_LABELS[i]}</div><div class="weather-condition">No data</div></div>`;
+      const hi = Math.round(daily.temperature_2m_max[idx]);
+      const lo = Math.round(daily.temperature_2m_min[idx]);
+      const code = daily.weathercode[idx];
+      const rain = daily.precipitation_probability_max[idx];
+      const wind = Math.round(daily.windspeed_10m_max[idx]);
+      const dir = WIND_DIR(daily.winddirection_10m_dominant[idx]);
+      const uv = Math.round(daily.uv_index_max[idx]);
+      return `<div class="weather-card"><div class="weather-day-label">${DAY_LABELS[i]}</div><div class="weather-icon">${WMO_ICON[code]||'🌡️'}</div><div class="weather-condition">${WMO_DESC[code]||'Unknown'}</div><div class="weather-temps">${hi}° <span>/ ${lo}°</span></div><div class="weather-meta">💨 ${dir} ${wind} mph<br>☔ ${rain}% rain<br>☀️ UV: ${UV_LABEL(uv)} (${uv})</div></div>`;
+    }).join('');
+    src.textContent = `Open-Meteo · Ridgecrest, CA · updated ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'})}`;
+  } catch(e) {
+    strip.innerHTML = `<div class="weather-card" style="grid-column:1/-1;text-align:center;color:var(--muted);font-family:'DM Mono',monospace;font-size:0.7rem;padding:20px;">Weather unavailable — check connection</div>`;
+  }
+}
+
+// ── PUNCHLIST DATA ──
+const data = [
+  {
+    section: "🏍️ Husqvarna FE501s — Pre-Race Mechanical",
+    items: [
+      { label: "Engine oil check / change if due", note: "Motorex Cross Power 10W/50 · ~0.7L · Check level with bike upright. Warm the engine first." },
+      { label: "Coolant level check", note: "WP coolant or Engine Ice. Check reservoir and radiator cap level. Don't open a hot cap." },
+      { label: "Brake fluid — front and rear", note: "Fluid should be clear/light yellow. Dark = change. Check both reservoirs." },
+      { label: "Brake pads — front and rear", note: "Check pad thickness. If you're under 2mm, replace before race. Desert riding eats pads." },
+      { label: "Spoke tension — front and rear", note: "FE501s: ~5 Nm front, ~5-6 Nm rear. Skip-2 pattern. Check runout after.", tag: "TORQUE SPEC" },
+      { label: "Tire pressure and condition", note: "Street legal Dual Sport: start around 18 psi front / 20 psi rear for desert dirt. Adjust to preference. Check for cuts or sidewall damage." },
+      { label: "Air filter — clean and re-oil", note: "A dirty air filter in Mojave desert = engine death. Do this the night before." },
+      { label: "Chain tension and lube", note: "FE501s spec: ~55-60mm slack at midpoint. Lube the night before and again morning of race." },
+      { label: "Wheel bearing play — front and rear", note: "Grab tire, feel for slop side to side and top to bottom. Any movement = needs attention before race." },
+      { label: "Axle bolts and pinch bolts torqued", note: "Front axle: 20 Nm axle bolt + 12 Nm pinch bolts. Rear: 80 Nm nut. See Torque Ref tab." },
+      { label: "Throttle — smooth operation, returns fully", note: "Full lock left and right. No binding. Critical." },
+      { label: "Controls — levers, guards, handlebars tight", note: "Bar bolts 20 Nm. Perch bolts snug. Check at full lock both directions." },
+      { label: "Exhaust header bolts snug", note: "They back off. Check and snug before race." },
+      { label: "Radiator guards installed", note: "Desert racing — a rock through the rad ends your day. Guard should be on and tight." },
+      { label: "Skid plate tight", note: "Check all bolts. Loose skid plates rattle off on rocks." },
+    ]
+  },
+  {
+    section: "📋 Registration & Race Docs",
+    items: [
+      { label: "Print or screenshot your registration ticket", note: "Ticket shows: Ryan Bravo · #271 · Dual Sport Intermediate Men · April 12 · dirtworthy@gmail.com" },
+      { label: "CA registration / OHV sticker on bike", note: "Dual Sport class requires street legal registration OR current CA green/red OHV sticker. Have it physically on the bike — they check." },
+      { label: "Photo ID (DL)", note: "Must be 18+. Have your CA DL." },
+      { label: "Pick up transponder at check-in", note: "Helmet transponder — primary scoring method. Make sure it's mounted correctly per event instructions." },
+      { label: "Fender card filled out", note: "Backup scoring method. Fill out legibly. Attach to fender per instructions." },
+      { label: "Apply #271 sticky numbers", note: "Numbers are provided at registration. Apply over existing numbers. Do this before race day so adhesive sets." },
+      { label: "Know your start wave", note: "Dual Sport Intermediate is mid-pack in the Sunday modern bike order. Pay attention to announcements." },
+    ]
+  },
+  {
+    section: "⛽ Pit Setup — Fuel Strategy",
+    items: [
+      { label: "Pit location confirmed", note: "Know where your pit is BEFORE you leave the starting line. Walk it the day before if you can." },
+      { label: "Race fuel at pit — 1 gallon minimum", note: "FE501s is ~77 mile range. Race is ~100 miles. You need a fuel stop. Bring a 1-gal race jug to your pit.", tag: "CRITICAL" },
+      { label: "Funnel at pit for fast fuel", note: "No spilling during a race stop. Bring a clean funnel." },
+      { label: "Bike stand at pit", note: "Makes any quick pit work possible." },
+      { label: "Basic pit tools", note: "Zip ties, duct tape, chain lube, spare levers, T-handles (8mm/10mm)" },
+      { label: "Water and food at pit", note: "4 laps in the Mojave. Hydrate between laps." },
+      { label: "Tire plug kit at pit", note: "CO2 cartridges x4 + plug strips. Tubeless tire fix in 5 minutes if you get a flat." },
+      { label: "Spare goggle lens or goggles at pit", note: "Dust and roost destroy lenses. Have a fresh one ready." },
+    ]
+  },
+  {
+    section: "🧢 Riding Gear",
+    items: [
+      { label: "Helmet", note: "Check fit, visor tight, no cracks." },
+      { label: "Goggles x2", note: "One tinted, one clear or smoke for dust. Both clean and lensed." },
+      { label: "Boots — buckles good", note: "Check all buckles before race morning. Stiff boots need a break-in — hope they're already dialed." },
+      { label: "Knee braces", note: "Check hinges and straps. Baja-style desert: you will need them." },
+      { label: "Chest protector / body armor", note: "" },
+      { label: "Jersey and pants", note: "" },
+      { label: "Gloves x2", note: "Bring a backup pair." },
+      { label: "Neck brace or collar (if running one)", note: "" },
+      { label: "Hydration pack — clean and full", note: "4 laps in the Mojave desert. Non-negotiable. Electrolytes in the water." },
+      { label: "Knee guards / elbow guards", note: "Desert vegetation and rocks." },
+      { label: "Roll-off goggles or extra lenses packed", note: "Mojave dust is relentless. Don't ride blind on lap 3." },
+    ]
+  },
+  {
+    section: "🛻 Truck + Transport",
+    items: [
+      { label: "Tire carrier / hitch carrier inspected", note: "Check welds, bolts, and receiver fit before loading." },
+      { label: "Tie-downs x4 — checked", note: "No frayed straps. Soft loops on bars. Front and rear points." },
+      { label: "Bike secured — forks compressed", note: "Compress forks with tie-downs to eliminate bounce." },
+      { label: "Truck fuel — topped off before departure", note: "~185 miles each way. Fill up in Ladera or Victorville before heading up." },
+      { label: "Truck tires — pressure and condition", note: "Including spare. Desert roads are rough on rubber." },
+      { label: "Water — multiple gallons", note: "For camp, drinking, and bike." },
+      { label: "Food for 2–3 days", note: "Easy camp meals + race day nutrition. High calorie, easy to prep." },
+      { label: "Camping gear — bedding, shelter if not sleeping in truck", note: "" },
+      { label: "Headlamp / lantern", note: "Pre-race morning setup in the dark." },
+      { label: "Sunscreen — high SPF", note: "Mojave April sun at elevation. Face, neck, hands." },
+      { label: "Cash", note: "Vendors, food, tips, emergencies. Bring more than you think." },
+    ]
+  }
+];
+
+// ── TORQUE DATA — Husqvarna FE501s ──
+const torqueData = [
+  {
+    group: "Wheels",
+    rows: [
+      { fastener: "Front axle bolt (M18x1.5)", nm: "20 Nm", ftlb: "14.8 ft-lb", loctite: false, note: "Bounce forks + pump brakes before final torque. Some sources say 15 Nm — verify against your specific year's service manual." },
+      { fastener: "Front fork axle pinch bolts (M8)", nm: "12 Nm", ftlb: "8.9 ft-lb", loctite: false, note: "Tighten AFTER axle bolt is torqued." },
+      { fastener: "Rear axle nut (M20x1.5)", nm: "80 Nm", ftlb: "59 ft-lb", loctite: false, note: "Right side (disc side). Lightly grease axle shaft. Cotter pin or locking mechanism must be reinstalled." },
+      { fastener: "Spoke nipples — front (M4.5)", nm: "4–5 Nm", ftlb: "3–3.7 ft-lb", loctite: false, note: "Skip-2 pattern, multiple passes. Check runout." },
+      { fastener: "Spoke nipples — rear (M5)", nm: "5–6 Nm", ftlb: "3.7–4.4 ft-lb", loctite: false, note: "Skip-2 pattern, multiple passes. Check runout." },
+    ]
+  },
+  {
+    group: "Triple Clamps / Steering",
+    rows: [
+      { fastener: "Lower triple clamp bolts (M8)", nm: "15 Nm", ftlb: "11.1 ft-lb", loctite: false, note: "Tighten FIRST. Set fork height before torquing." },
+      { fastener: "Upper triple clamp bolts (M8)", nm: "20 Nm", ftlb: "14.8 ft-lb", loctite: false, note: "Tighten AFTER lower clamp bolts." },
+      { fastener: "Steering stem nut (M20)", nm: "10 Nm", ftlb: "7.4 ft-lb", loctite: false, note: "Bearing preload only — snug, not cranked. Feel for smooth turn with no play." },
+      { fastener: "Handlebar clamp bolts (M8)", nm: "20 Nm", ftlb: "14.8 ft-lb", loctite: false, note: "Alternate tighten front/back to keep even gap." },
+    ]
+  },
+  {
+    group: "Suspension / Linkage",
+    rows: [
+      { fastener: "Swingarm pivot nut (M16)", nm: "70 Nm", ftlb: "51.6 ft-lb", loctite: false, note: "Recheck periodically. Grease pivot bolt shaft lightly." },
+      { fastener: "Shock absorber top bolt (M12)", nm: "30 Nm", ftlb: "22.1 ft-lb", loctite: true, note: "" },
+      { fastener: "Shock absorber bottom bolt (M12)", nm: "25 Nm", ftlb: "18.4 ft-lb", loctite: true, note: "" },
+      { fastener: "Linkage bolts (M10)", nm: "30 Nm", ftlb: "22.1 ft-lb", loctite: true, note: "All three linkage pivot bolts." },
+    ]
+  },
+  {
+    group: "Brakes & Sprockets",
+    rows: [
+      { fastener: "Front brake disc bolts (M6)", nm: "14 Nm", ftlb: "10.3 ft-lb", loctite: true, note: "" },
+      { fastener: "Rear brake disc bolts (M6)", nm: "14 Nm", ftlb: "10.3 ft-lb", loctite: true, note: "" },
+      { fastener: "Front brake caliper bolts (M8)", nm: "25 Nm", ftlb: "18.4 ft-lb", loctite: false, note: "" },
+      { fastener: "Rear sprocket nuts (M8)", nm: "35 Nm", ftlb: "25.8 ft-lb", loctite: true, note: "Torque the NUTS. Star pattern." },
+      { fastener: "Front sprocket bolt (M10)", nm: "65 Nm", ftlb: "47.9 ft-lb", loctite: true, note: "" },
+    ]
+  },
+  {
+    group: "Engine",
+    rows: [
+      { fastener: "Oil drain plug (M14)", nm: "20 Nm", ftlb: "14.8 ft-lb", loctite: false, note: "New crush washer every time. Do not overtighten — aluminum case." },
+      { fastener: "Oil filter cover bolts (M6)", nm: "10 Nm", ftlb: "7.4 ft-lb", loctite: false, note: "" },
+      { fastener: "Spark plug (NGK LKAR8A-9)", nm: "15 Nm", ftlb: "11.1 ft-lb", loctite: false, note: "Anti-seize on threads if aluminum head. Don't overtighten." },
+      { fastener: "Exhaust header nuts (M8)", nm: "20 Nm", ftlb: "14.8 ft-lb", loctite: false, note: "These back off under heat/vibration. Check before each race day." },
+      { fastener: "Engine mount bolts (M10)", nm: "50 Nm", ftlb: "36.9 ft-lb", loctite: false, note: "Main engine mount bolts into frame." },
+    ]
+  },
+  {
+    group: "General Chassis",
+    rows: [
+      { fastener: "M6 screws (general)", nm: "10 Nm", ftlb: "7.4 ft-lb", loctite: false, note: "" },
+      { fastener: "M6 nuts (general)", nm: "15 Nm", ftlb: "11.1 ft-lb", loctite: false, note: "" },
+      { fastener: "M8 screws (general)", nm: "25 Nm", ftlb: "18.4 ft-lb", loctite: false, note: "" },
+      { fastener: "M10 screws (general)", nm: "45 Nm", ftlb: "33.2 ft-lb", loctite: false, note: "" },
+    ]
+  }
+];
+
+// ── PUNCHLIST RENDER ──
+function renderChecklist() {
+  const container = document.getElementById('checklist');
+  container.innerHTML = '';
+  const saved = JSON.parse(localStorage.getItem('b100-checks') || '{}');
+
+  data.forEach((section, si) => {
+    const sec = document.createElement('div');
+    sec.className = 'section';
+    const hdr = document.createElement('div');
+    hdr.className = 'section-header';
+    hdr.innerHTML = `<span>${section.section}</span><span class="section-count" id="sc-${si}"></span>`;
+    sec.appendChild(hdr);
+
+    section.items.forEach((item, ii) => {
+      const key = `${si}-${ii}`;
+      const isDone = !!saved[key];
+      const div = document.createElement('div');
+      div.className = 'item' + (isDone ? ' done' : '');
+      div.innerHTML = `
+        <div class="checkbox"><span class="check-icon">✓</span></div>
+        <div>
+          ${item.tag ? `<div class="tag">${item.tag}</div>` : ''}
+          <div class="label">${item.label}</div>
+          ${item.note ? `<div class="note">${item.note}</div>` : ''}
+        </div>`;
+      div.onclick = () => toggle(key, div, sec);
+      sec.appendChild(div);
+    });
+
+    container.appendChild(sec);
+  });
+
+  updateProgress();
+}
+
+function toggle(key, el, section) {
+  const saved = JSON.parse(localStorage.getItem('b100-checks') || '{}');
+  const nowDone = !saved[key];
+  if (nowDone) saved[key] = true; else delete saved[key];
+  localStorage.setItem('b100-checks', JSON.stringify(saved));
+  if (window._syncSave) window._syncSave(saved);
+
+  if (nowDone) {
+    el.classList.add('done');
+    el.style.transition = 'opacity 0.25s';
+    el.style.opacity = '0.3';
+    setTimeout(() => { section.appendChild(el); el.style.opacity = '1'; }, 250);
+  } else {
+    el.classList.remove('done');
+    const firstDone = [...section.querySelectorAll('.item.done')].find(d => d !== el);
+    if (firstDone) section.insertBefore(el, firstDone);
+  }
+
+  updateProgress();
+}
+
+function updateProgress() {
+  const saved = JSON.parse(localStorage.getItem('b100-checks') || '{}');
+  let total = 0, done = 0;
+  data.forEach((section, si) => {
+    let sdone = 0, scount = 0;
+    section.items.forEach((item, ii) => { total++; scount++; if (saved[`${si}-${ii}`]) { done++; sdone++; } });
+    const el = document.getElementById(`sc-${si}`);
+    if (el) el.textContent = `${sdone}/${scount}`;
+  });
+  document.getElementById('progress-label').textContent = `${done} of ${total} complete`;
+  document.getElementById('progress-bar').style.width = `${total ? (done/total*100) : 0}%`;
+}
+
+function resetAll() {
+  if (confirm('Reset all checkboxes?')) {
+    localStorage.removeItem('b100-checks');
+    if (window._syncSave) window._syncSave({});
+    renderChecklist();
+  }
+}
+
+window._renderChecklist = renderChecklist;
+
+// ── TORQUE RENDER ──
+function renderTorque() {
+  const container = document.getElementById('torque-table');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const notice = document.createElement('div');
+  notice.style.cssText = 'font-family:"DM Mono",monospace;font-size:0.65rem;color:var(--muted);padding:0 0 20px;line-height:1.6;';
+  notice.textContent = 'Specs are for 2022 Husqvarna FE501s. Verify critical fasteners against your service manual. When in doubt, use the manual.';
+  container.appendChild(notice);
+
+  torqueData.forEach(group => {
+    const grpDiv = document.createElement('div');
+    grpDiv.className = 'torque-group';
+    const hdr = document.createElement('div');
+    hdr.className = 'torque-group-header';
+    hdr.textContent = group.group;
+    grpDiv.appendChild(hdr);
+
+    group.rows.forEach(row => {
+      const rowDiv = document.createElement('div');
+      rowDiv.className = 'torque-row';
+      rowDiv.innerHTML = `
+        <div class="torque-label">${row.fastener}</div>
+        <div class="torque-val">${row.nm}</div>
+        <div class="torque-val">${row.ftlb}</div>
+        ${row.loctite ? '<div class="torque-loctite">🔴 Loctite</div>' : '<div></div>'}
+        ${row.note ? `<div class="torque-note">${row.note}</div>` : ''}
+      `;
+      grpDiv.appendChild(rowDiv);
+    });
+
+    container.appendChild(grpDiv);
+  });
+}
+
+// ── BUDGET ──
+const budgetData = [
+  {
+    label: "⛽ Fuel — Truck",
+    note: "~185 mi each way · Tacoma ~15 mpg loaded · ~$5/gal avg",
+    items: [
+      { leg: "Ladera Ranch → Ridgecrest (up)", usd: 62, note: "Fill in Victorville — last cheap stop" },
+      { leg: "Ridgecrest → Ladera Ranch (home)", usd: 62, note: "Fill in Ridgecrest before heading south" },
+    ]
+  },
+  {
+    label: "⛽ Fuel — FE501s Race",
+    note: "FE501s ~2.2 gal tank · ~75-80 mi range · Need pit fuel for 100-mi race",
+    items: [
+      { leg: "Spare race fuel — 1 gal jug", usd: 8, note: "Premium pump gas. Bring from home or buy in Ridgecrest." },
+    ]
+  },
+  {
+    label: "🍺 Food & Drink",
+    note: "Estimate for 3 days (Fri–Sun)",
+    items: [
+      { leg: "Friday — road snacks + dinner", usd: 25, note: "Grab dinner in Ridgecrest on arrival" },
+      { leg: "Saturday — food at venue / Randsburg", usd: 35, note: "Vendors at race + dinner at Randsburg bar" },
+      { leg: "Sunday — race day + awards night", usd: 30, note: "Post-race food + whatever vendors are running" },
+      { leg: "Monday — drive home", usd: 15, note: "Fast food / coffee on the road" },
+    ]
+  },
+  {
+    label: "🏕️ Camping",
+    note: "BLM dispersed camping at Football Field OHV area — free",
+    items: [
+      { leg: "BLM camping — Fri + Sat nights", usd: 0, note: "Free on BLM land. Alternatively Ridgecrest hotels ~$80-120/night." },
+    ]
+  },
+  {
+    label: "📋 Misc",
+    items: [
+      { leg: "Ice for cooler", usd: 10, note: "Restock in Ridgecrest as needed" },
+      { leg: "Sundries / cash buffer", usd: 40, note: "Vendor swag, tips, emergencies, whatever comes up" },
+    ]
+  }
+];
+
+function renderBudget() {
+  const container = document.getElementById('budget-content');
+  if (!container) return;
+  container.innerHTML = '';
+  let grandTotal = 0;
+
+  budgetData.forEach(section => {
+    const secDiv = document.createElement('div');
+    secDiv.style.marginBottom = '8px';
+
+    const hdr = document.createElement('div');
+    hdr.style.cssText = 'background:rgba(255,120,0,0.12);padding:10px 16px;font-family:"Bebas Neue",sans-serif;font-size:1.1rem;letter-spacing:2px;color:var(--orange);';
+    hdr.textContent = section.label;
+    secDiv.appendChild(hdr);
+
+    if (section.note) {
+      const noteDiv = document.createElement('div');
+      noteDiv.style.cssText = 'padding:6px 16px 6px;font-family:"DM Mono",monospace;font-size:0.65rem;color:var(--muted);line-height:1.5;';
+      noteDiv.textContent = section.note;
+      secDiv.appendChild(noteDiv);
+    }
+
+    let sectionTotal = 0;
+    section.items.forEach(item => {
+      sectionTotal += item.usd;
+      grandTotal += item.usd;
+      const row = document.createElement('div');
+      row.style.cssText = 'display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.04);align-items:start;';
+      row.innerHTML = `<div><div style="font-size:0.85rem;font-weight:500;line-height:1.3;">${item.leg}</div>${item.note?`<div style="font-family:'DM Mono',monospace;font-size:0.63rem;color:var(--muted);margin-top:2px;">${item.note}</div>`:''}</div><div style="font-family:'DM Mono',monospace;font-size:0.85rem;color:#fff;white-space:nowrap;text-align:right;">${item.usd===0?'FREE':'$'+item.usd}</div>`;
+      secDiv.appendChild(row);
+    });
+
+    const subDiv = document.createElement('div');
+    subDiv.style.cssText = 'display:flex;justify-content:space-between;padding:8px 16px;background:rgba(255,255,255,0.03);font-family:"DM Mono",monospace;font-size:0.75rem;';
+    subDiv.innerHTML = `<span style="color:var(--muted);">Subtotal</span><span style="color:#fff;">$${sectionTotal}</span>`;
+    secDiv.appendChild(subDiv);
+    container.appendChild(secDiv);
+  });
+
+  const totalDiv = document.createElement('div');
+  totalDiv.style.cssText = 'margin:16px;padding:14px 16px;background:rgba(255,120,0,0.15);border:1px solid rgba(255,120,0,0.3);border-radius:6px;';
+  totalDiv.innerHTML = `<div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;color:var(--orange);margin-bottom:6px;">TOTAL TRIP BUDGET</div><div style="font-size:1.4rem;font-weight:600;">$${grandTotal} <span style="font-size:0.85rem;color:var(--muted);">USD</span></div><div style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);margin-top:8px;">Fuel + food + misc · Solo trip · Does not include registration (already paid).</div>`;
+  container.appendChild(totalDiv);
+}
+
+renderChecklist();
+renderTorque();
+renderBudget();
+fetchWeather();
+
+</script>
+
+<!-- ── CLOUD SYNC (Firebase) ── -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyARK54MtzxGbPd78iHqfwrIDXodfdrTa90",
+  authDomain: "baja-trip-a8117.firebaseapp.com",
+  databaseURL: "https://baja-trip-a8117-default-rtdb.firebaseio.com",
+  projectId: "baja-trip-a8117",
+  storageBucket: "baja-trip-a8117.firebasestorage.app",
+  messagingSenderId: "941528247723",
+  appId: "1:941528247723:web:ca2ca7087ab02fb576f6ee"
+};
+
+try {
+  const app = initializeApp(FIREBASE_CONFIG);
+  const db = getDatabase(app);
+  const checksRef = ref(db, 'biltwell-100/checks');
+
+  window._syncSave = (data) => {
+    set(checksRef, data).catch(e => console.warn('[Sync] Write failed', e));
+  };
+
+  onValue(checksRef, (snapshot) => {
+    const cloud = snapshot.val() || {};
+    localStorage.setItem('b100-checks', JSON.stringify(cloud));
+    if (window._renderChecklist) window._renderChecklist();
+  });
+
+  console.log('[Sync] Firebase connected — cross-device sync active');
+} catch(e) {
+  console.warn('[Sync] Firebase init failed, using localStorage only', e);
+}
+</script>
+
+</body>
+</html>
