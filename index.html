@@ -488,11 +488,21 @@
 <div class="tab-panel active" id="tab-schedule">
 
   <div class="callout">
-    🏁 <strong>Race Day: Sunday April 12 &nbsp;·&nbsp; #271 &nbsp;·&nbsp; Dual Sport Intermediate Men</strong><br>
+    🏁 <strong>Race Day: Sunday April 12 &nbsp;·&nbsp; #271 &nbsp;·&nbsp; Dual Sport Intermediate Men &nbsp;·&nbsp; SOLO</strong><br>
     Racing starts <strong>10:00 AM sharp</strong> · 4 laps · Course closes 4:00 PM · Awards Sunday night
   </div>
 
-  <div style="margin-bottom:24px;"></div>
+  <div style="background:#2a0a00;border:1px solid #cc4400;border-left:4px solid var(--orange);border-radius:6px;padding:12px 14px;margin-bottom:16px;">
+    <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;">⛽ SOLO FUEL WARNING</div>
+    <div style="font-family:'DM Mono',monospace;font-size:0.72rem;color:#ffccaa;line-height:1.8;">
+      FE501s tank: ~2.2 gal &nbsp;·&nbsp; Desert range: ~75–80 miles &nbsp;·&nbsp; Race: ~100 miles<br>
+      <strong style="color:#fff;">You will run dry before the finish if you don't plan for this.</strong><br>
+      Solo = no crew. Options: (1) Self-stop at your pit between laps — stage a 1-gal jug, pull up, fill, go &nbsp;·&nbsp; (2) Add IMS/Acerbis aux tank &nbsp;·&nbsp; (3) Small fuel bladder in hydration pack<br>
+      Decide before race day. Know where your pit is before you leave the start line.
+    </div>
+  </div>
+
+  <div style="margin-bottom:8px;"></div>
 
   <!-- WEATHER -->
   <div id="weather-strip" class="weather-strip">
@@ -834,16 +844,16 @@ const data = [
     ]
   },
   {
-    section: "⛽ Pit Setup — Fuel Strategy",
+    section: "⛽ Solo Pit — Fuel Strategy",
     items: [
-      { label: "Pit location confirmed", note: "Know where your pit is BEFORE you leave the starting line. Walk it the day before if you can." },
-      { label: "Race fuel at pit — 1 gallon minimum", note: "FE501s is ~77 mile range. Race is ~100 miles. You need a fuel stop. Bring a 1-gal race jug to your pit.", tag: "CRITICAL" },
-      { label: "Funnel at pit for fast fuel", note: "No spilling during a race stop. Bring a clean funnel." },
-      { label: "Bike stand at pit", note: "Makes any quick pit work possible." },
-      { label: "Basic pit tools", note: "Zip ties, duct tape, chain lube, spare levers, T-handles (8mm/10mm)" },
-      { label: "Water and food at pit", note: "4 laps in the Mojave. Hydrate between laps." },
-      { label: "Tire plug kit at pit", note: "CO2 cartridges x4 + plug strips. Tubeless tire fix in 5 minutes if you get a flat." },
-      { label: "Spare goggle lens or goggles at pit", note: "Dust and roost destroy lenses. Have a fresh one ready." },
+      { label: "Decide on fuel plan BEFORE race day", note: "Option A: Self-stop at pit between laps (stage a jug, pull up, fill yourself, go). Option B: IMS/Acerbis oversized tank. Option C: small fuel bladder in pack. No crew = you handle this alone.", tag: "CRITICAL" },
+      { label: "Pit location confirmed and walked", note: "Know exactly where your pit is BEFORE you leave the starting line. Walk it the day before. When you're tired on lap 2 you don't want to be searching." },
+      { label: "1-gal race jug staged at pit", note: "Pre-filled. Sealed. With funnel attached. Set it somewhere visible from the bike so you don't have to dig for it." },
+      { label: "Funnel — attached to jug or taped nearby", note: "Self-fueling solo under race pressure. Make it idiot-proof." },
+      { label: "Bike stand at pit", note: "Even solo, a stand makes everything easier." },
+      { label: "Water + food at pit — accessible without searching", note: "You're stopping alone. Set your water bottle and snack on top of the jug. Grab, drink, go. Don't bury it in a bag." },
+      { label: "Tire plug kit at pit", note: "CO2 cartridges x4 + plug strips. Solo flat = you fix it or you walk." },
+      { label: "Spare goggle lens at pit — laid on top", note: "Easy grab. Don't zip it into a bag." },
     ]
   },
   {
