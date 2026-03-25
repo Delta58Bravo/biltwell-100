@@ -1,0 +1,17 @@
+{
+  "name": "Biltwell 100",
+  "short_name": "Biltwell 100",
+  "description": "Ryan Bravo #271 — 2026 Biltwell 100 Race App",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0f0f0f",
+  "theme_color": "#CC1820",
+  "icons": [
+    {
+      "src": "app-icon.jpg",
+      "sizes": "any",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
