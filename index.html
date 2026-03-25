@@ -33,6 +33,17 @@
     padding: 32px 20px 60px;
   }
 
+  .header-hero {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    object-position: center 30%;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    display: block;
+    opacity: 0.85;
+  }
+
   header {
     display: flex;
     align-items: center;
@@ -475,6 +486,7 @@
 })();
 </script>
 
+<img src="biltwell-staging.jpg" class="header-hero" alt="Biltwell 100 — Race Staging" />
 <header>
   <div class="header-text">
     <img src="biltwell-logo.png" alt="Biltwell" style="height:36px;width:auto;filter:invert(1);opacity:0.95;display:block;margin-bottom:8px;" />
@@ -515,7 +527,11 @@
     </div>
   </div>
 
-  <div style="margin-bottom:8px;"></div>
+  <!-- OFFICIAL SCHEDULE GRAPHIC -->
+  <div style="margin-bottom:16px;">
+    <div class="ins-section-label" style="margin-bottom:8px;">📋 Official Schedule</div>
+    <img src="biltwell-schedule.png" alt="Biltwell 100 Official Schedule" style="width:100%;border-radius:6px;display:block;border:1px solid rgba(255,255,255,0.08);" />
+  </div>
 
   <!-- WEATHER -->
   <div id="weather-strip" class="weather-strip">
@@ -628,6 +644,19 @@
 
 <!-- VENUE TAB -->
 <div class="tab-panel" id="tab-venue">
+
+  <!-- PIT MAP -->
+  <div style="margin-bottom:20px;">
+    <div class="ins-section-label" style="margin-bottom:10px;">🗺️ Official Pit Map</div>
+    <img src="biltwell-pit-map.png" alt="Biltwell 100 Pit Map" style="width:100%;border-radius:6px;display:block;border:1px solid rgba(255,255,255,0.08);" onclick="this.style.position=this.style.position==='fixed'?'':'fixed';this.style.inset='0';this.style.width='100vw';this.style.height='100vh';this.style.objectFit='contain';this.style.background='#000';this.style.zIndex='9998';this.style.borderRadius='0';this.style.cursor='zoom-out';" style="cursor:zoom-in;" />
+    <div style="font-family:'Inter',sans-serif;font-size:0.65rem;color:var(--muted);margin-top:6px;text-align:center;letter-spacing:1px;text-transform:uppercase;">Tap to zoom · Start/Finish · Pit rows · Stage area · Spectator zones</div>
+  </div>
+
+  <!-- ATMOSPHERE PHOTOS -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;">
+    <img src="biltwell-staging.jpg" alt="Race staging" style="width:100%;height:110px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,0.08);" />
+    <img src="biltwell-crowd.jpg" alt="Riders meeting" style="width:100%;height:110px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,0.08);" />
+  </div>
 
   <div class="ins-section-label">📍 Getting There</div>
 
